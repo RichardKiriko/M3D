@@ -1,20 +1,20 @@
---[[×Ô¶¨Òå²¿·Ö]]--
+--[[è‡ªå®šä¹‰éƒ¨åˆ†]]--
 accuracy=0
---¹âÔ´·½Ïò
+--å…‰æºæ–¹å‘
 light_vec={0,0,1}
 --light_color
 light_c="&HFFFFFF&"
---Ä¬ÈÏµ×É«
+--é»˜è®¤åº•è‰²
 default_color="&HFFFFFF&"
---×ÔÈ»¹â
+--è‡ªç„¶å…‰
 n_light=0.5
 
---×Ô¶¨Òå²ÎÊı
+--è‡ªå®šä¹‰å‚æ•°
 mat={}
 mat.accuracy=accuracy or 1
 light_vec=light_vec or {0,0,1}
 n_light=n_light or 0.5
---¶¨Òå¾ØÕó
+--å®šä¹‰çŸ©é˜µ
 mat.set=function(tbl)
 	matrixs_metatable={
 		__add=function(m,tbl)
@@ -74,7 +74,7 @@ mat.set=function(tbl)
 	}
 	return _G.setmetatable(tbl,matrixs_metatable)
 end
---Ğı×ª
+--æ—‹è½¬
 mat.rotate=function(axis,theta)
 	theta=theta/180*math.pi
 	if axis == "x" then
@@ -84,11 +84,11 @@ mat.rotate=function(axis,theta)
 	elseif axis == "z" then
 		r_matrix={{math.cos(theta),-math.sin(theta),0},{math.sin(theta),math.cos(theta),0},{0,0,1}}
 	else
-		_G.error("ÇëÑ¡ÔñÕıÈ·µÄĞı×ªÖá£ºx/y/z")
+		_G.error("è¯·é€‰æ‹©æ­£ç¡®çš„æ—‹è½¬è½´ï¼šx/y/z")
 	end
 	return r_matrix
 end
---Ãæ±ä»»  vec1 -> {0,0,1} -> vec2
+--é¢å˜æ¢  vec1 -> {0,0,1} -> vec2
 mat.s_rotate=function(vec1,vec2)
 	if vec1[1] == 0 and vec1[3] == 0 then
 		sin=0
@@ -116,11 +116,11 @@ mat.s_rotate=function(vec1,vec2)
 	m=m*{{cos,0,-sin},{0,1,0},{sin,0,cos}}
 	return m
 end
---×Ô¶¨ÒåĞı×ªÖá
+--è‡ªå®šä¹‰æ—‹è½¬è½´
 mat.l_rotate=function(vec,theta)
 	return mat.s_rotate(vec,{0,0,1})*mat.rotate("z",theta)*mat.s_rotate({0,0,1},vec)
 end
---¾ØÕótableÉî¸´ÖÆ
+--çŸ©é˜µtableæ·±å¤åˆ¶
 mat.copy=function(m)
 	local new_matrix={}
 	for i=1,#m do
@@ -129,7 +129,7 @@ mat.copy=function(m)
 	end
 	return mat.set(new_matrix)
 end
---½ö¹©²âÊÔÓÃ
+--ä»…ä¾›æµ‹è¯•ç”¨
 mat.test=function(tbl)
 	local text=""
 	for x=1,#tbl do
@@ -140,7 +140,7 @@ mat.test=function(tbl)
 	end
 	return text
 end
---ÏòÁ¿Íâ»ı
+--å‘é‡å¤–ç§¯
 out_product=function(v1,v2)
 	if #v1 == #v2 then
 		if #v1 == 2 and #v2 == 2 then
@@ -149,10 +149,10 @@ out_product=function(v1,v2)
 			return {v1[2]*v2[3]-v1[3]*v2[2],v1[3]*v2[1]-v1[1]*v2[3],v1[1]*v2[2]-v1[2]*v2[1]}
 		end
 	else
-		_G.error("ÎŞĞ§µÄÍâ»ı")
+		_G.error("æ— æ•ˆçš„å¤–ç§¯")
 	end
 end
---ÏòÁ¿ÄÚ»ı
+--å‘é‡å†…ç§¯
 in_product=function(v1,v2)
 	if #v1 == #v2 then
 		local i_p=0
@@ -161,10 +161,10 @@ in_product=function(v1,v2)
 		end
 		return i_p
 	else
-		_G.error("ÎŞĞ§µÄÄÚ»ı")
+		_G.error("æ— æ•ˆçš„å†…ç§¯")
 	end
 end
---¶¨ÒåÏòÁ¿
+--å®šä¹‰å‘é‡
 set_vec=function(p1,p2)
 	if #p1 == #p2 then
 		local v={}
@@ -173,15 +173,15 @@ set_vec=function(p1,p2)
 		end
 		return v
 	else
-		_G.error("ÎŞĞ§µÄÏòÁ¿")
+		_G.error("æ— æ•ˆçš„å‘é‡")
 	end
 end
---µã¼¯È¥ÖØ
+--ç‚¹é›†å»é‡
 points_dc=function(tbl)
 	local xi=2
 	local tbl_dc=function(tbl1,tbl2)
 		if #tbl1 ~= #tbl2 then
-			_G.error("ÔªËØÊı²»Ò»ÖÂ")
+			_G.error("å…ƒç´ æ•°ä¸ä¸€è‡´")
 		end
 		for i=1,#tbl1 do
 			if tbl1[i] ~= tbl2[i] then
@@ -212,7 +212,7 @@ to_shape=function(tbl)
 	s=s.."l ".._G.table.concat(tbl[1]," ",1,2)
  	return s
 end
---¼ÆËãÏòÁ¿³¤¶È
+--è®¡ç®—å‘é‡é•¿åº¦
 vec_len=function(vec)
 	local len=0
 	for i=1,#vec do
@@ -220,7 +220,7 @@ vec_len=function(vec)
 	end
 	return math.sqrt(len)
 end
---È¡Õû
+--å–æ•´
 set_point=function(point)
 	local p={}
 	mat.accuracy=mat.accuracy or 0
@@ -230,7 +230,7 @@ set_point=function(point)
 	end
 	return p
 end
---¹âÓ°
+--å…‰å½±
 light_color=function(c1,c2,pct)
 	if pct > 1 then
 		pct = 1
@@ -248,7 +248,7 @@ light_color=function(c1,c2,pct)
 	local b=_G.tonumber(b1,16)*pct+_G.tonumber(b2,16)*(1-pct)
 	return string.format("&H%02X%02X%02X&",b,g,r)
 end
---·¨ÏòÁ¿
+--æ³•å‘é‡
 get_nvec=function(points,o)
 	local vec12=set_vec(points[1],points[2])
 	local vec13=set_vec(points[1],points[3])
