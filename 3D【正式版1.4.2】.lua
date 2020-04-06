@@ -80,7 +80,7 @@ mat.rotate=function(axis,theta)
 	if axis == "x" then
 		r_matrix={{1,0,0},{0,math.cos(theta),-math.sin(theta)},{0,math.sin(theta),math.cos(theta)}}
 	elseif axis == "y" then
-		r_matrix={{math.cos(theta),0,-math.sin(theta)},{0,1,0},{math.sin(theta),0,math.cos(theta)}}
+		r_matrix={{math.cos(theta),0,math.sin(theta)},{0,1,0},{-math.sin(theta),0,math.cos(theta)}}
 	elseif axis == "z" then
 		r_matrix={{math.cos(theta),-math.sin(theta),0},{math.sin(theta),math.cos(theta),0},{0,0,1}}
 	else
