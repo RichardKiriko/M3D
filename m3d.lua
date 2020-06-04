@@ -15,10 +15,11 @@ M3D.default_color="&HFFFFFF&"
 --自然光
 M3D.n_light=0.5
 
+M3D.accuracy=1
+
 --自定义参数
-mat={
-	accuracy=0
-}
+mat={}
+
 --定义矩阵
 mat.set=function(tbl)
 	matrixs_metatable={
@@ -228,8 +229,8 @@ end
 --取整
 set_point=function(point)
 	local p={}
-	M3D.mat.accuracy=M3D.mat.accuracy or 0
-	local macc=10^M3D.mat.accuracy
+	M3D.accuracy=M3D.accuracy or 0
+	local macc=10^M3D.accuracy
 	for i=1,#point do
 		p[i]=math.floor(macc*point[i]+0.5)/macc
 	end
@@ -315,7 +316,7 @@ get_shapes=function(matrixs_tbl,surface,alpha)
 						s_shape=final_shapes[#final_shapes].text
 						for ssi=1,#surface[si].shapes do
 							local spi=surface[si].shapes[ssi].si-1
-							local f_shape=string.gsub(surface[si].shapes[ssi].text,"([%d%-]+) ([%d%-]+)",function() spi=spi+1 return string.format("%d %d",math.round(matrixs_tbl[spi][1],M3D.mat.accuracy),math.round(matrixs_tbl[spi][2],M3D.mat.accuracy)) end)
+							local f_shape=string.gsub(surface[si].shapes[ssi].text,"([%d%-]+) ([%d%-]+)",function() spi=spi+1 return string.format("%d %d",math.round(matrixs_tbl[spi][1],M3D.accuracy),math.round(matrixs_tbl[spi][2],M3D.accuracy)) end)
 							final_shapes[#final_shapes+1] = {text=f_shape,
 								color=light_color(surface[si].shapes[ssi].color or M3D.default_color,M3D.light_c,l_theta),
 								clip=s_shape,
@@ -329,7 +330,7 @@ get_shapes=function(matrixs_tbl,surface,alpha)
 	return final_shapes
 end
 
-move_3d=function(st,et,dt,matrix,surface,alpha,matrix_fun)
+move_3d=function(st,et,dt,matrix,surface,alpha,matrix_fun)--_G.Yutils.shape.filter
 	if matrix_fun == nil then
 		matrix_fun=function(m,s,ti,tn) return m end
 	end
